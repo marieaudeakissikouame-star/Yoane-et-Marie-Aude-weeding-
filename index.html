@@ -809,31 +809,29 @@
 
       const formData = new FormData(this);
 
-      // Remplacez cette URL par l'URL du Web App Apps Script déployé (voir instructions dans le README)
-      const WEBHOOK_URL = "TON_WEBAPP_GOOGLE_SCRIPT_URL";
+      // Web App URL (no token)
+      const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxGR4mRViJbZw6eZKTq6X4tdsDAHwiQwmjJWTJp3dKX0QtMjL54hfKdCV20bk3pWUI/exec";
 
-      if (WEBHOOK_URL === "TON_WEBAPP_GOOGLE_SCRIPT_URL") {
-        alert("⚠️ Configuration en cours...\nVos données seront sauvegardées bientôt ! 💕");
-        console.log("Données du formulaire:", {
-          nom: formData.get("nom"),
-          tel: formData.get("tel"),
-          accompagne: formData.get("accompagne"),
-          nom_accompagnateur: formData.get("nom_accompagnateur")
-        });
-        this.reset();
-        return;
-      }
+      const payload = {
+        nom: formData.get("nom"),
+        tel: formData.get("tel"),
+        accompagne: formData.get("accompagne"),
+        nom_accompagnateur: formData.get("nom_accompagnateur"),
+        timestamp: new Date().toISOString()
+      };
 
       fetch(WEBHOOK_URL, {
-        method: "POST",
-        body: formData
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
       })
         .then(response => {
-          alert("✓ Confirmation envoyée avec amour ! 💕");
+          if (!response.ok) throw new Error('Network response was not ok');
+          alert('✓ Confirmation envoyée avec amour ! 💕');
           this.reset();
         })
         .catch(error => {
-          console.error("Erreur:", error);
+          console.error('Erreur:', error);
           alert("⚠️ Erreur lors de l'envoi, veuillez réessayer");
         });
     });
