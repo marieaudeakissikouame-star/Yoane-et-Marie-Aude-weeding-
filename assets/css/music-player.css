@@ -1,0 +1,19 @@
+/* Minimal styling for music buttons */
+#music-toggle, #unmute {
+  background: rgba(255,255,255,0.95);
+  border: 1px solid #ddd;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #222;
+}
+#music-toggle { margin-right: 8px; }
+#unmute { display: none; }
+
+/* Positioning helper (optional) */
+.music-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
